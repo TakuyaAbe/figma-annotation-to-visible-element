@@ -40,7 +40,7 @@ Figmaでデザインを作成する際、Dev Modeのアノテーション機能�
 
 ### リリースからダウンロード（推奨）
 
-1. [Releases](https://github.com/because440/figma-annotation-to-visible-element/releases)ページにアクセス
+1. [Releases](https://github.com/TakuyaAbe/figma-annotation-to-visible-element/releases)ページにアクセス
 2. 最新の `annotation-to-pdf-vX.X.X.zip` をダウンロード
 3. zipファイルを解凍
 4. Figmaデスクトップアプリを開く
