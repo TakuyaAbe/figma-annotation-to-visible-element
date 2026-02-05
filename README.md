@@ -42,7 +42,7 @@ Create PDFs with annotations for reviewing design specs in environments without 
 
 ### Download from Release (Recommended)
 
-1. Go to [Releases](https://github.com/because440/figma-annotation-to-visible-element/releases)
+1. Go to [Releases](https://github.com/TakuyaAbe/figma-annotation-to-visible-element/releases)
 2. Download the latest `annotation-to-pdf-vX.X.X.zip`
 3. Extract the zip file
 4. Open Figma desktop app
