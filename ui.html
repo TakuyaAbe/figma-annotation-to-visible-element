@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 16px;
+      background: #fff;
+    }
+    h1 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:hover {
+      transform: translateY(-1px);
+    }
+    button:active {
+      transform: translateY(0);
+    }
+    .primary {
+      background: #18A0FB;
+      color: white;
+    }
+    .primary:hover {
+      background: #0d8de5;
+    }
+    .secondary {
+      background: #F0F0F0;
+      color: #333;
+    }
+    .secondary:hover {
+      background: #E5E5E5;
+    }
+    .info {
+      font-size: 11px;
+      color: #888;
+      margin-top: 16px;
+      line-height: 1.5;
+      padding: 12px;
+      background: #F8F8F8;
+      border-radius: 6px;
+    }
+    .info strong {
+      color: #666;
+    }
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .step-num {
+      width: 18px;
+      height: 18px;
+      background: #18A0FB;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <h1>Annotation to PDF</h1>
+
+  <button class="primary" id="generate">
+    ✨ Generate Callouts
+  </button>
+  <button class="secondary" id="remove">
+    🧹 Remove Callouts
+  </button>
+
+  <div class="info">
+    <div class="step">
+      <span class="step-num">1</span>
+      <span>Select a frame or use current page</span>
+    </div>
+    <div class="step">
+      <span class="step-num">2</span>
+      <span>Click "Generate Callouts"</span>
+    </div>
+    <div class="step">
+      <span class="step-num">3</span>
+      <span>Export to PDF (File → Export)</span>
+    </div>
+    <div class="step">
+      <span class="step-num">4</span>
+      <span>Click "Remove Callouts" to clean up</span>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('generate').onclick = () => {
+      parent.postMessage({ pluginMessage: { type: 'generate' } }, '*');
+    };
+    document.getElementById('remove').onclick = () => {
+      parent.postMessage({ pluginMessage: { type: 'remove' } }, '*');
+    };
+  </script>
+</body>
+</html>

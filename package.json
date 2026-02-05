@@ -1,0 +1,17 @@
+{
+  "name": "figma-annotation-to-visible-element",
+  "version": "1.0.0",
+  "description": "Convert Dev Mode annotations to visible callouts for PDF export",
+  "main": "code.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "keywords": ["figma", "plugin", "annotation", "pdf", "export"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.100.2",
+    "typescript": "^5.3.3"
+  }
+}
