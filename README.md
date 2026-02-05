@@ -1,26 +1,48 @@
 # Annotation to PDF
 
-Figma plugin that converts Dev Mode annotations to visible callout elements for PDF export.
+[日本語版 README はこちら](./README_ja.md)
 
-## Overview
+A Figma plugin that converts Dev Mode annotations into visible callout elements for PDF export.
 
-Dev Mode annotations in Figma are not included in PDF exports. This plugin creates visible callout elements from annotations, allowing you to export them in PDFs for client deliverables and documentation.
+## Problem
+
+When creating designs in Figma, you can use Dev Mode's annotation feature to add notes for developers. However, these annotations have limitations:
+
+- **Not included in PDF exports** - Annotations are Dev Mode-only features and won't appear when exporting as PDF
+- **Can't be used for client deliverables** - When delivering design specs or style guides as PDF, annotation content needs to be documented separately
+- **Can't be printed** - When printing for review, annotations are not included
+
+## Solution
+
+This plugin automatically generates **visible callout elements** from Dev Mode annotations. The generated callouts are regular Figma objects, so they are included in PDF exports and prints.
+
+## Use Cases
+
+### PDF Delivery of Design Specifications
+Use when delivering design specifications to clients or external partners as PDF, and you want to include developer notes.
+
+### Creating Design Review Materials
+Create PDFs with annotations for team design reviews or presentations.
+
+### Offline Reference Documents
+Create PDFs with annotations for reviewing design specs in environments without internet access.
 
 ## Features
 
-- **Annotation Reading**: Reads all Dev Mode annotations from selected frames
-- **Visual Callouts**: Generates numbered callout elements with annotation content
-- **Number Markers**: Places numbered badges on annotated elements
-- **Connector Lines**: Draws dashed lines connecting markers to callouts
-- **Easy Cleanup**: One-click removal of all generated callouts
-- **Pinned Properties**: Displays pinned inspection properties in callouts
+- **Annotation Detection**: Automatically detects Dev Mode annotations within selected frames
+- **Callout Generation**: Generates numbered callout elements automatically
+- **Smart Positioning**: Auto-positions callouts on left or right based on element position (outside the frame)
+- **Marker Display**: Places numbered badges on annotated elements
+- **Connector Lines**: Connects markers and callouts with dashed lines
+- **Multiple Frame Support**: Select multiple frames for batch generation (numbering resets for each frame)
+- **Section Support**: When frames are inside a section, callouts are also placed in that section
+- **Easy Cleanup**: Remove all generated callouts with one click
 
 ## Installation
 
 ### Development Setup
 
 ```bash
-# Navigate to project directory
 cd figma-annotation-to-visible-element
 
 # Install dependencies
@@ -29,76 +51,74 @@ npm install
 # Build TypeScript
 npm run build
 
-# Or watch for changes during development
+# Watch for changes during development
 npm run watch
 ```
 
 ### Import to Figma
 
-1. Open Figma Desktop app
+1. Open Figma desktop app
 2. Go to **Plugins** → **Development** → **Import plugin from manifest...**
 3. Select the `manifest.json` file from this project
 
 ## Usage
 
-### Workflow
+### Basic Workflow
 
-1. **Add Annotations**: Use Figma's Dev Mode to add annotations to your design elements
-2. **Select Frame**: Select the frame containing annotated elements (or let the plugin use the first frame on the page)
-3. **Generate Callouts**: Click "Generate Callouts" to create visible callout elements
-4. **Export PDF**: Use File → Export to export your design with visible callouts
-5. **Cleanup**: Click "Remove Callouts" to delete all generated elements
+1. **Add Annotations**: Add annotations to design elements in Figma's Dev Mode
+2. **Select Frames**: Select frames containing annotations (multiple selection supported)
+3. **Generate Callouts**: Click "Generate Callouts"
+4. **Export PDF**: File → Export to output PDF
+5. **Cleanup**: Click "Remove Callouts" to delete generated callouts
 
 ### Tips
 
-- Annotations are numbered based on their position (top-to-bottom, left-to-right)
-- Callouts are placed to the right of annotated elements
-- The original Dev Mode annotations remain intact after removal
-- You can regenerate callouts at any time
+- Annotations are numbered by position (top to bottom, left to right)
+- Callouts for elements on the left half of a frame appear on the left; right half elements get callouts on the right
+- Original Dev Mode annotations are not deleted (they remain after callout removal)
+- When selecting multiple frames, numbering resets to 1 for each frame
 
 ## File Structure
 
 ```
 figma-annotation-to-visible-element/
 ├── manifest.json      # Plugin configuration
-├── code.ts           # Main plugin logic (TypeScript)
-├── code.js           # Compiled JavaScript (generated)
+├── code.ts           # Main logic (TypeScript)
+├── code.js           # Compiled JavaScript
 ├── ui.html           # Plugin UI
 ├── package.json      # Node.js dependencies
 ├── tsconfig.json     # TypeScript configuration
-└── README.md         # This file
+├── README.md         # This file
+└── README_ja.md      # Japanese README
 ```
 
 ## Customization
 
-### Colors
+### Changing Colors
 
-Edit the `COLORS` object in `code.ts` to customize:
+Edit the `COLORS` object in `code.ts`:
 
 - Callout background and border colors
-- Marker badge colors
+- Marker colors
 - Text colors
 - Connector line color
 
-### Callout Layout
+### Changing Sizes
 
-Modify `createCalloutElement()` to adjust:
+Edit constants in `code.ts`:
 
-- Padding and spacing
-- Font sizes
-- Callout width
-- Corner radius
+- `CALLOUT_WIDTH`: Callout width (default: 130px)
+- `CALLOUT_GAP`: Gap between frame and callout (default: 24px)
+- `MARKER_SIZE`: Marker size (default: 24px)
 
 ## Requirements
 
 - Figma Desktop App
 - Node.js 18+ (for development)
-- TypeScript (installed via npm)
 
 ## Limitations
 
-- Requires Dev Mode access in Figma
-- Callouts are placed to the right of elements (may overlap in dense layouts)
+- Requires Dev Mode access
 - Markdown formatting in annotations is displayed as plain text
 
 ## License

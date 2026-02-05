@@ -1,0 +1,81 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Get version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create release package
+        run: |
+          mkdir -p release
+          cp manifest.json release/
+          cp code.js release/
+          cp ui.html release/
+          cp README.md release/
+          cp README_ja.md release/
+          cd release
+          zip -r ../annotation-to-pdf-${{ steps.version.outputs.version }}.zip .
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          name: Release ${{ steps.version.outputs.version }}
+          body: |
+            ## Annotation to PDF - ${{ steps.version.outputs.version }}
+
+            ### Installation
+            1. Download `annotation-to-pdf-${{ steps.version.outputs.version }}.zip`
+            2. Extract the zip file
+            3. In Figma, go to **Plugins** → **Development** → **Import plugin from manifest...**
+            4. Select the `manifest.json` file from the extracted folder
+
+            ### Files included
+            - `manifest.json` - Plugin configuration
+            - `code.js` - Plugin code (compiled)
+            - `ui.html` - Plugin UI
+            - `README.md` - Documentation (English)
+            - `README_ja.md` - Documentation (Japanese)
+          files: |
+            annotation-to-pdf-${{ steps.version.outputs.version }}.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

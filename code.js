@@ -228,6 +228,17 @@ async function generateCalloutsForFrame(annotations, frameBounds) {
     }
     return elementsCreated;
 }
+// Find the parent section of a node (if any)
+function findParentSection(node) {
+    let current = node.parent;
+    while (current) {
+        if (current.type === 'SECTION') {
+            return current;
+        }
+        current = current.parent;
+    }
+    return null;
+}
 // Generate callouts for multiple frames
 async function generateCallouts(frames) {
     // Load required fonts
@@ -235,6 +246,11 @@ async function generateCallouts(frames) {
     await figma.loadFontAsync({ family: "Inter", style: "Medium" });
     const allElements = [];
     let totalAnnotations = 0;
+    let parentSection = null;
+    // Check if frames are inside a section (use first frame's section)
+    if (frames.length > 0) {
+        parentSection = findParentSection(frames[0]);
+    }
     // Process each frame
     for (const frame of frames) {
         const frameBounds = frame.absoluteBoundingBox;
@@ -256,20 +272,23 @@ async function generateCallouts(frames) {
     }
     // Group all elements together
     if (allElements.length > 0) {
-        const group = figma.group(allElements, figma.currentPage);
+        // Place group in section if frames are inside a section, otherwise on page
+        const parent = parentSection || figma.currentPage;
+        const group = figma.group(allElements, parent);
         group.name = CALLOUT_GROUP_NAME;
     }
     return totalAnnotations;
 }
-// Remove all generated callouts
+// Remove all generated callouts (searches page and all sections)
 function removeCallouts() {
     const page = figma.currentPage;
-    const calloutGroup = page.findOne((n) => n.name === CALLOUT_GROUP_NAME);
-    if (calloutGroup) {
-        calloutGroup.remove();
-        return true;
+    const calloutGroups = page.findAll((n) => n.name === CALLOUT_GROUP_NAME);
+    let removed = 0;
+    for (const group of calloutGroups) {
+        group.remove();
+        removed++;
     }
-    return false;
+    return removed;
 }
 // Main plugin logic
 figma.showUI(__html__, { width: 280, height: 220 });
@@ -311,9 +330,9 @@ figma.ui.onmessage = async (msg) => {
         }
     }
     if (msg.type === 'remove') {
-        const removed = removeCallouts();
-        if (removed) {
-            figma.notify('🧹 Callouts removed');
+        const removedCount = removeCallouts();
+        if (removedCount > 0) {
+            figma.notify(`🧹 Removed ${removedCount} callout group${removedCount > 1 ? 's' : ''}`);
         }
         else {
             figma.notify('No callouts to remove');
