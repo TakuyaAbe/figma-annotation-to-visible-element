@@ -38,26 +38,14 @@ Figmaでデザインを作成する際、Dev Modeのアノテーション機能�
 
 ## インストール
 
-### 開発環境セットアップ
+### リリースからダウンロード（推奨）
 
-```bash
-cd figma-annotation-to-visible-element
-
-# 依存関係をインストール
-npm install
-
-# TypeScriptをビルド
-npm run build
-
-# 開発中は変更を監視
-npm run watch
-```
-
-### Figmaへのインポート
-
-1. Figmaデスクトップアプリを開く
-2. **Plugins** → **Development** → **Import plugin from manifest...** を選択
-3. このプロジェクトの `manifest.json` を選択
+1. [Releases](https://github.com/because440/figma-annotation-to-visible-element/releases)ページにアクセス
+2. 最新の `annotation-to-pdf-vX.X.X.zip` をダウンロード
+3. zipファイルを解凍
+4. Figmaデスクトップアプリを開く
+5. **Plugins** → **Development** → **Import plugin from manifest...** を選択
+6. 解凍したフォルダ内の `manifest.json` を選択
 
 ## 使い方
 
@@ -76,7 +64,46 @@ npm run watch
 - 元のDev Modeアノテーションは削除されません（コールアウト削除後も残ります）
 - 複数フレームを選択すると、各フレームごとに番号が1からリセットされます
 
-## ファイル構成
+## 動作要件
+
+- Figma デスクトップアプリ
+- Dev Modeへのアクセス
+
+## 制限事項
+
+- Dev Modeへのアクセスが必要です
+- アノテーション内のMarkdown書式はプレーンテキストとして表示されます
+
+## ライセンス
+
+MIT
+
+---
+
+## 開発者向け
+
+### 開発環境セットアップ
+
+```bash
+cd figma-annotation-to-visible-element
+
+# 依存関係をインストール
+npm install
+
+# TypeScriptをビルド
+npm run build
+
+# 開発中は変更を監視
+npm run watch
+```
+
+### Figmaへのインポート（開発用）
+
+1. Figmaデスクトップアプリを開く
+2. **Plugins** → **Development** → **Import plugin from manifest...** を選択
+3. このプロジェクトの `manifest.json` を選択
+
+### ファイル構成
 
 ```
 figma-annotation-to-visible-element/
@@ -90,9 +117,9 @@ figma-annotation-to-visible-element/
 └── README_ja.md      # このファイル
 ```
 
-## カスタマイズ
+### カスタマイズ
 
-### 色の変更
+#### 色の変更
 
 `code.ts` の `COLORS` オブジェクトを編集：
 
@@ -101,24 +128,10 @@ figma-annotation-to-visible-element/
 - テキストの色
 - コネクター線の色
 
-### サイズの変更
+#### サイズの変更
 
 `code.ts` の定数を編集：
 
 - `CALLOUT_WIDTH`: コールアウトの幅（デフォルト: 130px）
 - `CALLOUT_GAP`: フレームとコールアウトの間隔（デフォルト: 24px）
 - `MARKER_SIZE`: マーカーのサイズ（デフォルト: 24px）
-
-## 動作要件
-
-- Figma デスクトップアプリ
-- Node.js 18以上（開発用）
-
-## 制限事項
-
-- Dev Modeへのアクセスが必要です
-- アノテーション内のMarkdown書式はプレーンテキストとして表示されます
-
-## ライセンス
-
-MIT

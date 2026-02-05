@@ -40,26 +40,14 @@ Create PDFs with annotations for reviewing design specs in environments without 
 
 ## Installation
 
-### Development Setup
+### Download from Release (Recommended)
 
-```bash
-cd figma-annotation-to-visible-element
-
-# Install dependencies
-npm install
-
-# Build TypeScript
-npm run build
-
-# Watch for changes during development
-npm run watch
-```
-
-### Import to Figma
-
-1. Open Figma desktop app
-2. Go to **Plugins** → **Development** → **Import plugin from manifest...**
-3. Select the `manifest.json` file from this project
+1. Go to [Releases](https://github.com/because440/figma-annotation-to-visible-element/releases)
+2. Download the latest `annotation-to-pdf-vX.X.X.zip`
+3. Extract the zip file
+4. Open Figma desktop app
+5. Go to **Plugins** → **Development** → **Import plugin from manifest...**
+6. Select the `manifest.json` file from the extracted folder
 
 ## Usage
 
@@ -78,7 +66,46 @@ npm run watch
 - Original Dev Mode annotations are not deleted (they remain after callout removal)
 - When selecting multiple frames, numbering resets to 1 for each frame
 
-## File Structure
+## Requirements
+
+- Figma Desktop App
+- Dev Mode access
+
+## Limitations
+
+- Requires Dev Mode access
+- Markdown formatting in annotations is displayed as plain text
+
+## License
+
+MIT
+
+---
+
+## For Developers
+
+### Development Setup
+
+```bash
+cd figma-annotation-to-visible-element
+
+# Install dependencies
+npm install
+
+# Build TypeScript
+npm run build
+
+# Watch for changes during development
+npm run watch
+```
+
+### Import to Figma (Development)
+
+1. Open Figma desktop app
+2. Go to **Plugins** → **Development** → **Import plugin from manifest...**
+3. Select the `manifest.json` file from this project
+
+### File Structure
 
 ```
 figma-annotation-to-visible-element/
@@ -92,9 +119,9 @@ figma-annotation-to-visible-element/
 └── README_ja.md      # Japanese README
 ```
 
-## Customization
+### Customization
 
-### Changing Colors
+#### Changing Colors
 
 Edit the `COLORS` object in `code.ts`:
 
@@ -103,24 +130,10 @@ Edit the `COLORS` object in `code.ts`:
 - Text colors
 - Connector line color
 
-### Changing Sizes
+#### Changing Sizes
 
 Edit constants in `code.ts`:
 
 - `CALLOUT_WIDTH`: Callout width (default: 130px)
 - `CALLOUT_GAP`: Gap between frame and callout (default: 24px)
 - `MARKER_SIZE`: Marker size (default: 24px)
-
-## Requirements
-
-- Figma Desktop App
-- Node.js 18+ (for development)
-
-## Limitations
-
-- Requires Dev Mode access
-- Markdown formatting in annotations is displayed as plain text
-
-## License
-
-MIT
